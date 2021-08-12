@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qqspace.dao.CommentMapper">
+  <resultMap id="BaseResultMap" type="com.qqspace.bean.Comment">
+
+    <id column="co_id" jdbcType="INTEGER" property="coId" />
+    <result column="co_createDate" jdbcType="TIMESTAMP" property="coCreatedate" />
+    <result column="co_articleId" jdbcType="INTEGER" property="coArticleid" />
+    <result column="co_userid" jdbcType="INTEGER" property="coUserid" />
+    <result column="co_likeCount" jdbcType="INTEGER" property="likeCount" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.qqspace.bean.Comment">
+
+    <result column="co_content" jdbcType="LONGVARCHAR" property="coContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+
+    co_id, co_createDate, co_articleId, co_userid
+  </sql>
+  <sql id="Blob_Column_List">
+
+    co_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comment_info
+    where co_id = #{coId,jdbcType=INTEGER}
+  </select>
+  <select id="selectCountByCoArticleid" parameterType="java.lang.Integer" resultType="integer">
+    
+    SELECT COUNT(0) 
+    FROM comment_info
+    <where>
+      1 = 1
+      <if test="coArticleid != null">
+        and co_articleId = #{coArticleid,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+  <select id="selectByCoArticleid"  resultMap="ResultMapWithBLOBs">
+    SELECT comment_info.*,COUNT(cl_id) as co_likeCount 
+    FROM comment_info 
+    LEFT JOIN commentlikecount_info ON co_id = cl_commentId 
+    WHERE co_articleId = #{coArticleid,jdbcType=INTEGER} 
+    GROUP BY co_id 
+    ORDER BY co_likeCount DESC 
+    LIMIT #{begin,jdbcType=INTEGER},#{recordSize,jdbcType=INTEGER}
+  </select>
+  <select id="selectByarticleId"  parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    FROM comment_info 
+    
+    WHERE co_articleId = #{coArticleid,jdbcType=INTEGER} 
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+
+    delete from comment_info
+    where co_id = #{coId,jdbcType=INTEGER}
+  </delete>
+   <delete id="deleteByarticleId" parameterType="java.lang.Integer">
+
+    delete from comment_info
+    where co_articleId = #{articleId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.qqspace.bean.Comment">
+
+    insert into comment_info (co_id, co_createDate, co_articleId, 
+      co_userid, co_content)
+    values (#{coId,jdbcType=INTEGER}, #{coCreatedate,jdbcType=TIMESTAMP}, #{coArticleid,jdbcType=INTEGER}, 
+      #{coUserid,jdbcType=INTEGER}, #{coContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qqspace.bean.Comment">
+
+    insert into comment_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="coId != null">
+        co_id,
+      </if>
+      <if test="coCreatedate != null">
+        co_createDate,
+      </if>
+      <if test="coArticleid != null">
+        co_articleId,
+      </if>
+      <if test="coUserid != null">
+        co_userid,
+      </if>
+      <if test="coContent != null">
+        co_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="coId != null">
+        #{coId,jdbcType=INTEGER},
+      </if>
+      <if test="coCreatedate != null">
+        #{coCreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coArticleid != null">
+        #{coArticleid,jdbcType=INTEGER},
+      </if>
+      <if test="coUserid != null">
+        #{coUserid,jdbcType=INTEGER},
+      </if>
+      <if test="coContent != null">
+        #{coContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qqspace.bean.Comment">
+
+    update comment_info
+    <set>
+      <if test="coCreatedate != null">
+        co_createDate = #{coCreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coArticleid != null">
+        co_articleId = #{coArticleid,jdbcType=INTEGER},
+      </if>
+      <if test="coUserid != null">
+        co_userid = #{coUserid,jdbcType=INTEGER},
+      </if>
+      <if test="coContent != null">
+        co_content = #{coContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where co_id = #{coId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.qqspace.bean.Comment">
+
+    update comment_info
+    set co_createDate = #{coCreatedate,jdbcType=TIMESTAMP},
+      co_articleId = #{coArticleid,jdbcType=INTEGER},
+      co_userid = #{coUserid,jdbcType=INTEGER},
+      co_content = #{coContent,jdbcType=LONGVARCHAR}
+    where co_id = #{coId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qqspace.bean.Comment">
+
+    update comment_info
+    set co_createDate = #{coCreatedate,jdbcType=TIMESTAMP},
+      co_articleId = #{coArticleid,jdbcType=INTEGER},
+      co_userid = #{coUserid,jdbcType=INTEGER}
+    where co_id = #{coId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!--《《《《《====mybatis工程configuration详细配置 ====》》》》》  -->
+<configuration>
+	<!-- ==========MyBatis 框架运行设置 配置 -start======== -->
+	<settings>
+		<!-- 打印查询语句 -->
+		<setting name="logImpl" value="LOG4J" />
+		<!-- 开启驼峰匹配 -->
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
+	<!-- =========MyBatis 框架运行设置 配置 -end========= -->
+	<!-- ============ 类别名配置 -start================== -->
+	<typeAliases>
+		<package name="com.qqspace.bean" />
+	</typeAliases>
+	<!-- ============ 类别名配置 -end================== -->
+	<!-- 分页插件配置 -start  -->
+	<!-- <plugins>
+  		
+  			
+  			<plugin interceptor="com.github.pagehelper.PageInterceptor">
+            该参数默认为false
+            设置为true时，会将RowBounds第一个参数offset当成pageNum页码使用
+            和startPage中的pageNum效果一样
+            <property name="offsetAsPageNum" value="true"/>
+            该参数默认为false
+            设置为true是，使用RowBounds分页会进行count查询
+            <property name="rowBoundsWithCount" value="true"/>
+            设置为true时，如果pageSize=0或者ROwRounds.limit=0就会查询出全部的结果
+            （相当于每一偶执行分页查询，但是返回结果仍然是page类型）
+            <property name="pageSizeZero" value="true"/>
+            
+  		</plugin>
+  	</plugins> -->
+<!-- 分页插件配置 -end  -->
+</configuration>  

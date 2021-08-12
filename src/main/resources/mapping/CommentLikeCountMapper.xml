@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qqspace.dao.CommentLikeCountMapper">
+  <resultMap id="BaseResultMap" type="com.qqspace.bean.CommentLikeCount">
+
+    <id column="cl_id" jdbcType="INTEGER" property="clId" />
+    <result column="cl_commentId" jdbcType="INTEGER" property="clCommentid" />
+    <result column="cl_dianzanid" jdbcType="INTEGER" property="clDianzanid" />
+    <result column="cl_date" jdbcType="TIMESTAMP" property="clDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+
+    cl_id, cl_commentId, cl_dianzanid, cl_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+
+    select 
+    <include refid="Base_Column_List" />
+    from commentlikecount_info
+    where cl_id = #{clId,jdbcType=INTEGER}
+  </select>
+   <select id="selectExByCommentidAndDianzanid" resultMap="BaseResultMap">
+
+    select 
+    <include refid="Base_Column_List" />
+    from commentlikecount_info 
+    where cl_commentId = #{clCommentid,jdbcType=INTEGER} 
+    and cl_dianzanid =  #{clDianzanid,jdbcType=INTEGER} 
+  </select>
+   <select id="selectExLike"  resultType="integer">
+    
+    select count(0) 
+    from commentlikecount_info 
+    where cl_commentId = #{clCommentid,jdbcType=INTEGER} 
+    and cl_dianzanid =  #{clDianzanid,jdbcType=INTEGER} 
+  </select>
+  <delete id="deleteByCommentidAndDianzanid" >
+
+    delete from commentlikecount_info 
+  	 where cl_commentId = #{clCommentid,jdbcType=INTEGER} 
+    and cl_dianzanid =  #{clDianzanid,jdbcType=INTEGER} 
+  </delete>
+  <delete id="deleteByclCommentid" parameterType="java.lang.Integer" >
+
+    delete from commentlikecount_info 
+  	 where cl_commentId = #{coId,jdbcType=INTEGER} 
+  </delete>
+   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+
+    delete from commentlikecount_info
+    where cl_id = #{clId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qqspace.bean.CommentLikeCount">
+
+    insert into commentlikecount_info (cl_id, cl_commentId, cl_dianzanid, 
+      cl_date)
+    values (#{clId,jdbcType=INTEGER}, #{clCommentid,jdbcType=INTEGER}, #{clDianzanid,jdbcType=INTEGER}, 
+      #{clDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qqspace.bean.CommentLikeCount">
+
+    insert into commentlikecount_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="clId != null">
+        cl_id,
+      </if>
+      <if test="clCommentid != null">
+        cl_commentId,
+      </if>
+      <if test="clDianzanid != null">
+        cl_dianzanid,
+      </if>
+      <if test="clDate != null">
+        cl_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="clId != null">
+        #{clId,jdbcType=INTEGER},
+      </if>
+      <if test="clCommentid != null">
+        #{clCommentid,jdbcType=INTEGER},
+      </if>
+      <if test="clDianzanid != null">
+        #{clDianzanid,jdbcType=INTEGER},
+      </if>
+      <if test="clDate != null">
+        #{clDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qqspace.bean.CommentLikeCount">
+
+    update commentlikecount_info
+    <set>
+      <if test="clCommentid != null">
+        cl_commentId = #{clCommentid,jdbcType=INTEGER},
+      </if>
+      <if test="clDianzanid != null">
+        cl_dianzanid = #{clDianzanid,jdbcType=INTEGER},
+      </if>
+      <if test="clDate != null">
+        cl_date = #{clDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where cl_id = #{clId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qqspace.bean.CommentLikeCount">
+
+    update commentlikecount_info
+    set cl_commentId = #{clCommentid,jdbcType=INTEGER},
+      cl_dianzanid = #{clDianzanid,jdbcType=INTEGER},
+      cl_date = #{clDate,jdbcType=TIMESTAMP}
+    where cl_id = #{clId,jdbcType=INTEGER}
+  </update>
+</mapper>

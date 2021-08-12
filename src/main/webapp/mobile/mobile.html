@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head >
+<title>HzBlogs 博客</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<link th:href="@{/statics/css/mobilestyle.css}" rel="stylesheet" type="text/css" media="all" />
+<!-- -->
+
+</head>
+<body>
+<!-- contact-form -->	
+<div class="message warning">
+<div class="inset">
+	<div class="login-head">
+		<h1>Message</h1>
+		 <div class="alert-close"> </div> 			
+	</div>
+		<form>
+			<p>暂不支持手机访问!</p>
+			<p style="padding-top: 20px;">请使用PC设备浏览网站.</p>
+				
+		</form>
+		</div>					
+	</div>
+	</div>
+	<div class="clear"> </div>
+<!--- footer --->
+<div class="footer">
+	<p>Copyright Pandora工作室 &copy;  2019.</p>
+</div>
+
+<input type="hidden" id="path" name="path" th:value="${#httpServletRequest.getContextPath()}" />
+<script th:src="@{/statics/js/jquery-1.11.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/device.min.js}"></script>
+<script>var __links = document.querySelectorAll('a');function __linkClick(e) { parent.window.postMessage(this.href, '*');} ;for (var i = 0, l = __links.length; i < l; i++) {if ( __links[i].getAttribute('data-t') == '_blank' ) { __links[i].addEventListener('click', __linkClick, false);}}</script>
+
+<script>
+var path = $("#path").val();
+var isMobile = device.mobile();
+if(!isMobile){    /*手机端*/
+    window.location.href = path+'/user/login.html';
+}
+$(document).ready(function(c) {
+	$('.alert-close').on('click', function(c){
+		$('.message').fadeOut('slow', function(c){
+	  		$('.message').remove();
+		});
+	});	  
+});
+</script>
+</body>
+</html>

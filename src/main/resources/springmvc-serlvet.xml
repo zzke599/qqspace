@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+			<!--《《《《《《 springmvc的配置文件，包含网站跳转逻辑的控制，等配置  》》》》》》 -->
+	<!-- ========SpringMVC 自动扫包配置-start ======== -->
+	
+	<context:component-scan base-package="com.qqspace"
+		use-default-filters="false">
+		<!-- 只扫描控制器 -->
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	<!-- ========SpringMVC 自动扫包配置-end ======== -->
+	<!-- ========SpringMVC 注解驱动配置-start ======== -->
+	<mvc:annotation-driven >
+	<!-- ========SpringMVC 消息转换器配置-start ======== -->
+	<mvc:message-converters>
+    		<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+    			<property name="supportedMediaTypes">
+    				<list>
+    					<value>application/json;charset=UTF-8</value>
+    				</list>
+    			</property>
+    		</bean> 
+    		<bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+    			<property name="supportedMediaTypes">
+    				<list>
+    					<value>text/html;charset=UTF-8</value>
+    					<value>application/json</value>
+    				</list>
+    			</property>
+    			<property name="features">
+    				<list>
+    				   <!-- Date的日期转换器 -->
+    					<value>WriteDateUseDateFormat</value>
+    				</list>
+    			</property>
+    		</bean>
+    	</mvc:message-converters>
+    	<!-- ========SpringMVC 消息转换器配置-end ======== -->
+	</mvc:annotation-driven>
+	<!-- ========SpringMVC 注解驱动配置-end ======== -->
+
+	<!-- ===============SpringMVC 拦截器配置 -start================ -->
+	<mvc:interceptors>
+		<!--=======登录拦截器配置 -start=========== -->		
+		<mvc:interceptor>
+			<!--=======需要拦截的url配置 -start=========== -->		
+			<mvc:mapping path="/user/**" />
+			<mvc:mapping path="/admin/**" />
+			<!--=======需要拦截的url配置 -end=========== -->
+			<!--=======不要拦截的url配置 -start=========== -->
+			<mvc:exclude-mapping path="/mobile.html" />
+			<mvc:exclude-mapping path="/user/login.html" />
+			<mvc:exclude-mapping path="/user/logout.html" />
+			<mvc:exclude-mapping path="/user/existlogin.json" />
+			<mvc:exclude-mapping path="/user/register.html" />
+			<mvc:exclude-mapping path="/user/dologin.json" />
+			<mvc:exclude-mapping path="/user/doregister.json" />
+			<mvc:exclude-mapping path="/admin/login.html" />
+			<mvc:exclude-mapping path="/admin/dologin.json" />
+            <mvc:exclude-mapping path="/admin/css/**" />
+            <mvc:exclude-mapping path="/admin/fonts/**" />
+            <mvc:exclude-mapping path="/admin/images/**" />
+            <mvc:exclude-mapping path="/admin/js/**" />
+            <mvc:exclude-mapping path="/admin/lib/**" />
+			<mvc:exclude-mapping path="/statics/**"/>
+			<!--=======不要拦截的url配置 -end=========== -->
+			<!--=======引用拦截器的配置-start=========== -->
+			<bean class="com.qqspace.interceptor.LoginInterceptor" />
+			<!--=======引用拦截器的配置-end=========== -->
+		</mvc:interceptor>
+		<!--=======登录拦截器配置 -end=========== -->		
+		
+	</mvc:interceptors>
+	<!-- ===============SpringMVC 拦截器配置 -end================ -->
+	
+	<!-- ===============SpringMVC 拦截器配置 -end================ -->
+	
+	<!-- ============SpringMVC允许访问静态资源配置- start ============-->
+		<!-- 对进入 DispatcherServlet 的 URL 进行筛查，-->
+		<!--静态资源由 Web 服务器默认的Servlet 处理，  -->
+		<!-- 非静态资源的请求，由 DispatcherServlet 处理-->
+	<mvc:default-servlet-handler />
+	<!-- 引入外部的配置文件 -->
+	<context:property-placeholder location="classpath:pathconfig.properties" />
+	<!--mvc:resources 允许静态资源放在任何地方，映射配置  -->
+	 <mvc:resources location="file:${articlePath}/" mapping="/article/**" /> 
+	 <mvc:resources location="file:${userPath}/" mapping="/user/**" />
+	 <mvc:resources location="file:${albumPath}/" mapping="/album/**" />
+	 <mvc:resources location="file:${kindEdtorPath}/" mapping="/kindEdtor/**" /> 
+	<!-- ============SpringMVC允许访问静态资源配置- end ============-->
+	
+	<!-- ============ 访问url和视图进行映射 ============  -->
+	<mvc:view-controller path="/" view-name="redirect:/user/login.html"/> 
+	<!-- 配置视图解析器，方便页面返回 -->
+	<!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
+		<property name="prefix" value="/"></property> <property name="suffix" value=".jsp"></property> 
+		</bean> -->
+	<!--===============SpringMVC多视图解析配置-start =================-->
+			<!--=======  根据请求URl的后缀解析请求类型  =========  -->
+	<bean id="cnManager"
+		class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<property name="favorPathExtension" value="true" />
+		<property name="ignoreAcceptHeader" value="true" />
+		<property name="defaultContentType" value="text/html" />
+		
+		<property name="mediaTypes">
+			<map>
+				<entry key="html" value="text/html;charset=UTF-8" />
+				<entry key="json" value="application/json;charset=UTF-8" />
+				<entry key="xml" value="application/xml;charset=UTF-8" />
+			</map>
+		</property>
+	</bean>
+	<!--================SpringMVC多视图解析配置-end ===================-->
+	<!--================SpringMVC 和thymeleaf 整合配置-start ===================-->
+			 <!--=== 使用thymeleaf解析=== -->
+	<bean id="templateResolver"
+		class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
+		<property name="prefix" value="/" />
+		<property name="suffix" value=".html" />
+		<property name="characterEncoding" value="UTF-8" />
+		<property name="order" value="1" />
+		<property name="templateMode" value="HTML5" />
+		<property name="cacheable" value="false" />
+	</bean>
+	
+	<bean id="templateEngine" class="org.thymeleaf.spring5.SpringTemplateEngine">
+		<property name="templateResolver" ref="templateResolver" />
+	</bean>
+
+	<bean id="viewResolver" class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
+		<property name="templateEngine" ref="templateEngine" />
+		<property name="characterEncoding" value="UTF-8" />
+	</bean>
+	<!--================SpringMVC 和thymeleaf 整合配置-end ===================-->
+	<!--================multipartResolver 上传组件配置-start ===================-->
+	
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!--===== 限制上传文件大小200M =====-->
+		<property name="maxUploadSize" value="204857600" />
+		<!--===== 默认编码 =====-->  
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+	<!--================multipartResolver 上传组件配置-end ===================-->
+	
+	<!--================SpringMVC 的异常配置 -start ===================-->
+	<bean id="exceptionResolver" class="com.qqspace.exception.CustomExceptionResolver"></bean>
+	<!-- <bean id="exceptionHandlerExceptionResolver" 
+ 				class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
+    </bean> -->
+	
+
+		<!--================SpringMVC 的异常配置 -end ===================-->
+	
+
+</beans>

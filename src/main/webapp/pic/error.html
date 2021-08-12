@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>QQ空间 相册</title>
+<link rel="icon"  th:href="@{/statics/images/img/favicon.ico}" type="image/x-icon" />
+<link th:href="@{/statics/css/base.css}" rel="stylesheet" />
+<link th:href="@{/statics/css/index.css}" rel="stylesheet" />
+<link th:href="@{/statics/css/picmanage.css}" rel="stylesheet" />
+<link th:href="@{/statics/css/error/errorstyle.css}" rel="stylesheet">
+<!-- 弹窗样式 -->
+<link rel="stylesheet"  th:href="@{/statics/js/artDialog/skins/opera.css}" type="text/css" />
+<!--[if lt IE 9]>
+<script src="js/modernizr.js"></script>
+<![endif]-->
+
+
+</head>
+<body style="background-color: rgb(0,0,0,0.3);">
+	<div class="addphoto">
+		<center>
+			 <div class="message-box" >
+  							<h1 style="font-size: 60px;">404</h1>
+  							<p style="font-size: 16px; margin-bottom: 30px;">找不到页面 . . .</p>
+  							<div class="buttons-con">
+    							<div class="action-link-wrap">
+      								<a onclick="history.back(-1)" class="link-button link-back-button">返回上一页</a>
+      								
+   						 		</div>
+  							</div>
+					</div>
+		</center>
+	</div>
+<input type="hidden" id="path" name="path" th:value="${#httpServletRequest.getContextPath()}" />
+<script type="text/javascript" th:src="@{/statics/js/jquery-1.11.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/artDialog/artDialog.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/artDialog/plugins/iframeTools.source.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/picedit.js}"></script>
+</body>
+</html>

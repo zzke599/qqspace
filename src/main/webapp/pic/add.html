@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>QQ空间 相册</title>
+<link rel="icon"  th:href="@{/statics/images/img/favicon.ico}" type="image/x-icon" />
+<link th:href="@{/statics/css/base.css}" rel="stylesheet" />
+<link th:href="@{/statics/css/index.css}" rel="stylesheet" />
+<link th:href="@{/statics/css/picmanage.css}" rel="stylesheet" />
+<link th:href="@{/statics/css/picax.css}" rel="stylesheet">
+<link rel="stylesheet"  th:href="@{/statics/js/artDialog/skins/simple.css}" type="text/css" />
+<!--[if lt IE 9]>
+<script src="js/modernizr.js"></script>
+<![endif]-->
+
+</head>
+<body>
+<p id="message"  class="messagessm" align="center" ></p>
+	<div class="addphoto">
+		<center>
+			<form id="photoAlbumsInfo" onsubmit="return false" th:method="post"  th:object="${photoAlbumsModel}" >
+				<table>
+					<tr>
+						<td><strong>相册名称：</strong></td>
+						<td><input id="paName" name="paName"  class="dep" type="text" value="" size="20" maxlength="20" /></td>
+					</tr>
+					<tr>
+						<td><strong>相册描述：</strong></td>
+						<td><textarea id="paDescription"   name="paDescription" class="dep"  cols="15" rows="5" maxlength="200"></textarea></td>
+					</tr>
+					<tr>
+						<td><strong>访问权限：</strong></td>
+						<td><input  type="radio"  name="paJurisdiction"  value="1"  checked /> 公开&nbsp;
+						 		<input type="radio"    name="paJurisdiction" value="2"  /> 博友 &nbsp;
+						 		<input type="radio"    name="paJurisdiction"  value="3"  /> 私人
+						 	</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+						<input id="savebtn" type="button" value="创 建" />
+								&nbsp;&nbsp;&nbsp;
+						<input type="reset" value="重 置" /></td>
+					</tr>
+				</table>
+			</form>
+		</center>
+	</div>
+<input type="hidden" id="path" name="path" th:value="${#httpServletRequest.getContextPath()}" />	
+<script type="text/javascript" th:src="@{/statics/js/jquery-1.11.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/artDialog/artDialog.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/artDialog/plugins/iframeTools.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/picadd.js}"></script>
+</body>
+</html>

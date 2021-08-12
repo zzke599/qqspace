@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qqspace.dao.FollowMapper">
+  <resultMap id="BaseResultMap" type="com.qqspace.bean.Follow">
+
+    <id column="fo_id" jdbcType="INTEGER" property="foId" />
+    <result column="fo_note" jdbcType="VARCHAR" property="foNote" />
+    <result column="fo_userid" jdbcType="INTEGER" property="foUserid" />
+    <result column="fo_beUserid" jdbcType="INTEGER" property="foBeuserid" />
+    <result column="fo_createDate" jdbcType="TIMESTAMP" property="foCreatedate" />
+    
+  </resultMap>
+   <resultMap id="countFollowMap" type="com.qqspace.bean.Follow">
+   		<result column="fo_fans" jdbcType="INTEGER" property="fans" />
+   	 	<result column="fo_followCount" jdbcType="INTEGER" property="followCount" />
+   </resultMap>
+  <sql id="Base_Column_List">
+
+    fo_id, fo_note, fo_userid, fo_beUserid, fo_createDate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+
+    select 
+    <include refid="Base_Column_List" />
+    from follow_info
+     where fo_id = #{foId,jdbcType=INTEGER}
+  </select>
+  <select id="selectCountByFoUserid" parameterType="java.lang.Integer"  resultType="integer">  
+    select 
+     count(0)
+    from follow_info
+     where fo_userid = #{foUserid,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUserIdAndBeUserId" resultMap="BaseResultMap">
+
+    select 
+    <include refid="Base_Column_List" />
+    from follow_info
+   
+    where fo_userid = #{foUserid,jdbcType=INTEGER}
+    and  fo_beUserid = #{foBeuserid,jdbcType=INTEGER}
+  </select>
+  <select id="selectByFoUserid" resultMap="BaseResultMap">
+
+    select 
+    <include refid="Base_Column_List" />
+    from follow_info
+  
+    where fo_userid = #{foUserid,jdbcType=INTEGER} 
+    ORDER BY fo_createDate DESC 
+	LIMIT #{begin,jdbcType=INTEGER},#{recordSize,jdbcType=INTEGER}
+  </select>
+  <select id="selectFansandFollowCountByUserid"  parameterType="integer" resultMap="countFollowMap">
+    SELECT 
+    	COALESCE(sum(fo_beUserid = #{userid,jdbcType=INTEGER}),0) AS fo_fans,
+    	COALESCE(sum(fo_userid =#{userid,jdbcType=INTEGER}),0) AS fo_followCount 
+    FROM follow_info
+    
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+
+    delete from follow_info
+    where fo_id = #{foId,jdbcType=INTEGER}
+  </delete>
+   <delete id="delByUseridAndBeUserid" >
+
+    delete from follow_info 
+    where fo_userid = #{foUserid,jdbcType=INTEGER}
+    and  fo_beUserid = #{foBeuserid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qqspace.bean.Follow" keyProperty="foId" useGeneratedKeys="true">
+
+    insert into follow_info (fo_id, fo_note, fo_userid, 
+      fo_beUserid, fo_createDate)
+    values (#{foId,jdbcType=INTEGER}, #{foNote,jdbcType=VARCHAR}, #{foUserid,jdbcType=INTEGER}, 
+      #{foBeuserid,jdbcType=INTEGER}, #{foCreatedate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qqspace.bean.Follow" keyProperty="foId" useGeneratedKeys="true">
+
+    insert into follow_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="foId != null">
+        fo_id,
+      </if>
+      <if test="foNote != null">
+        fo_note,
+      </if>
+      <if test="foUserid != null">
+        fo_userid,
+      </if>
+      <if test="foBeuserid != null">
+        fo_beUserid,
+      </if>
+      <if test="foCreatedate != null">
+        fo_createDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="foId != null">
+        #{foId,jdbcType=INTEGER},
+      </if>
+      <if test="foNote != null">
+        #{foNote,jdbcType=VARCHAR},
+      </if>
+      <if test="foUserid != null">
+        #{foUserid,jdbcType=INTEGER},
+      </if>
+      <if test="foBeuserid != null">
+        #{foBeuserid,jdbcType=INTEGER},
+      </if>
+      <if test="foCreatedate != null">
+        #{foCreatedate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qqspace.bean.Follow">
+
+    update follow_info
+    <set>
+      <if test="foNote != null">
+        fo_note = #{foNote,jdbcType=VARCHAR},
+      </if>
+      <if test="foUserid != null">
+        fo_userid = #{foUserid,jdbcType=INTEGER},
+      </if>
+      <if test="foBeuserid != null">
+        fo_beUserid = #{foBeuserid,jdbcType=INTEGER},
+      </if>
+      <if test="foCreatedate != null">
+        fo_createDate = #{foCreatedate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where fo_id = #{foId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qqspace.bean.Follow">
+
+    update follow_info
+    set fo_note = #{foNote,jdbcType=VARCHAR},
+      fo_userid = #{foUserid,jdbcType=INTEGER},
+      fo_beUserid = #{foBeuserid,jdbcType=INTEGER},
+      fo_createDate = #{foCreatedate,jdbcType=TIMESTAMP}
+    where fo_id = #{foId,jdbcType=INTEGER}
+  </update>
+</mapper>

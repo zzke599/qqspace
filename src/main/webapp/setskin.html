@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>QQ空间首页</title>
+<link rel="icon"  th:href="@{/statics/images/img/favicon.ico}" type="image/x-icon" />
+<link rel="stylesheet"
+	th:href="@{/statics/js/artDialog/skins/opera.css}" type="text/css" />
+<script type="text/javascript" th:src="@{/statics/js/jquery.js}"></script>
+<script type="text/javascript"
+	th:src="@{/statics/js/artDialog/artDialog.js}"></script>
+<script type="text/javascript"
+	th:src="@{/statics/js/artDialog/plugins/iframeTools.js}"></script>
+<style type="text/css">
+.skin {
+	float: left;
+	list-style: none;
+}
+
+li img {
+	width: 170px;
+	height: 222px;
+	margin: 15px 15px 0px 15px;
+	border: 1px solid #ccc;
+}
+
+.skin_btn {
+	cursor: pointer;
+	text-align: center;
+	display: block;
+}
+
+button {
+	cursor: pointer;
+	width: 87%;
+}
+</style>
+<script>
+	
+</script>
+</head>
+<div class="by">
+
+	<ul>
+		<li class="skin"><img th:src="@{/statics/images/pf_default.png}" />
+			<div class="skin_btn">
+				<button skinname="pf_default">使用此模板</button>
+			</div></li>
+		<li class="skin"><img th:src="@{/statics/images/pf_girl.png}" />
+			<div class="skin_btn">
+				<button skinname="pf_girl">使用此模板</button>
+			</div></li>
+		<li class="skin"><img th:src="@{/statics/images/pf_bamboo.png}" />
+			<div class="skin_btn">
+				<button skinname="pf_bamboo">使用此模板</button>
+			</div></li>
+		<li class="skin"><img th:src="@{/statics/images/pf_green.png}" />
+			<div class="skin_btn">
+				<button skinname="pf_green">使用此模板</button>
+			</div></li>
+		<li class="skin"><img th:src="@{/statics/images/pf_plum.png}" />
+			<div class="skin_btn">
+				<button skinname="pf_plum">使用此模板</button>
+			</div></li>
+		<li class="skin"><img th:src="@{/statics/images/pf_boy.png}" />
+			<div class="skin_btn">
+				<button skinname="pf_boy">使用此模板</button>
+			</div></li>
+	</ul>
+</div>
+<input type="hidden" id="path" name="path"
+	th:value="${#httpServletRequest.getContextPath()}" />
+<script type="text/javascript">
+	var path = $("#path").val();
+	$(function() {
+		$("button").click(function() {
+
+			var skinname = $(this).attr("skinname");
+			$.post(path + "/user/back/dosetskin.json", {
+				skinname : skinname
+			}, function(data) {
+				if (data.error == 0) {
+
+					parent.location.reload();
+				} else {
+					alert(data.message);
+				}
+			}, "json");
+		});
+	});
+</script>
+</html>

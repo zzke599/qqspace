@@ -1,0 +1,162 @@
+﻿@charset "utf-8";
+/* 管理页面标头 */
+.f_l {
+	float: left;
+}
+
+.f_r {
+	float: right;
+}
+
+.pic_manage {
+	width: 99%;
+	height: auto;
+}
+
+.pic_manage .manage_top {
+	border: 0px solid red;
+}
+
+.pic_manage .manage_piclist ul {
+	border-top: 1px solid #000;
+	border-width: thin;
+	margin: 25px 15px 15px 15px;
+	height: 530px;
+}
+
+.pic_manage .manage_button {
+	padding: 15px 0px 0px 15px;
+}
+
+.pic_manage .manage_button li {
+	margin-left: 20px;
+	float: left;
+}
+
+.pic_manage .manage_piclist li {
+	margin-top: 15px;
+	padding: 0 15px 0px 15px;
+	float: left;
+}
+
+.pic_manage .manage_piclist img {
+	width: 157px;
+	height: 200px;
+}
+
+.pic_manage .manage_bottom {
+	margin-top: 50px;
+	text-align: center;
+}
+
+.pic_manage .pic_name {
+	font-size: 15px;
+	color: black;
+	font-weight: 500;
+}
+/* 创建/编辑相册弹出框样式 */
+.addphoto {
+	align-self: center;
+	margin: 15px;
+}
+
+.addphoto table td {
+	padding: 3px 0;
+}
+
+textarea {
+	resize: none;
+}
+
+.addphoto td:nth-child(1) {
+	text-align: center;
+}
+/* 相册管理_相册图片列表 */
+.picdetail_manage .manage_top {
+	border: 0px solid red;
+}
+
+.picdetail_manage .manage_piclist ul {
+	border-top: 1px solid #000;
+	border-width: thin;
+	margin: 25px 15px 15px 15px;
+	height: 470px;
+}
+
+.picdetail_manage .manage_button {
+	padding: 15px 0px 0px 15px;
+}
+
+.picdetail_manage .manage_button li {
+	margin-left: 20px;
+	float: left;
+}
+
+.picdetail_manage .manage_piclist li {
+	margin-top: 15px;
+	padding: 0 5px 0px 5px;
+	float: left;
+}
+
+.picdetail_manage .manage_piclist img {
+	width: 99px;
+	height: 116px;
+}
+
+.picdetail_manage .manage_bottom {
+	text-align: center;
+}
+/* 上传图片 */
+.upload_pic {
+	padding: 5px;
+	background-color: #ccc;
+}
+
+.upload_top select {
+	width: 200px;
+}
+
+.upload_top {
+	margin: 10px;
+}
+
+.upload_bottom {
+	padding: 5px;
+}
+
+.upload_bottom span {
+	float: right;
+}
+
+.upload_list {
+	height: 347px;
+	background-color: #E6E6E6;
+}
+
+.upload_list img {
+
+	float: left;
+}
+.picdetail_manage .upload_top select{
+	height: 25px;
+	font-size: 12px;
+	cursor: pointer;
+}
+.picdetail_manage .upload_top select option{
+	font-size: 12px;
+	cursor: pointer;
+}
+.picdetail_manage .upload_top .upup{
+	font-weight: bold;
+	color: rgba(0, 0, 0,.6);
+	transition: all 0.7s ease-out;
+	
+}
+.picdetail_manage .upload_top .upup:HOVER{
+	color: rgba(0,0,0,1);
+	font-weight: inherit;
+	border: 1px solid rgba(0, 0, 0,.6);
+	padding: 3px 10px;
+	background:rgba(0, 206, 201,1.0);
+  	transition: all 0.7s ease-in;
+    }

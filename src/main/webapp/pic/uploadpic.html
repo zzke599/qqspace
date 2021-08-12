@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>QQ空间 相册</title>
+<link rel="icon"  th:href="@{/statics/images/img/favicon.ico}" type="image/x-icon" />
+<link th:href="@{/statics/css/base.css}" rel="stylesheet" />
+<link th:href="@{/statics/css/index.css}" rel="stylesheet" />
+<link th:href="@{/statics/css/globle.css}" rel="stylesheet" />
+<link th:href="@{/statics/css/picmanage.css}" rel="stylesheet" />
+<!--	提示框样式  -->
+<link rel="stylesheet" th:href="@{/statics/js/artDialog/skins/opera.css}" type="text/css" />
+
+</head>
+<body>
+<p id="message"  class="messagessm" align="center" ></p>
+	<div class="picdetail_manage">
+		<div class="upload_top">
+			上传至 
+			<select id="paId" name="paId" >
+				<option th:each="photoAlbumsModel : ${photoAlbumsModels}"   th:attr="value=${photoAlbumsModel.paId}"  th:text="${photoAlbumsModel.paName}">123</option>				
+			</select> 
+			<a href="javascript:;" id="addphotobox">创建相册</a><a id="upload"  class="upup"  href="javascript:;" style="float:right;">开始上传</a>
+		</div>
+		<div class="upload_pic">
+			<div class="upload_bottom">
+				<span style="margin-top: 5px; color:#000;">*单次最多上传10张</span>
+			</div>
+			<div class="upload_list">
+				<div  style="padding: 30px  0px 10px 10px;">
+					<ul class="upload-ul clearfix">
+						<li class="upload-pick">
+							<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						</li>
+					</ul>
+					<p align="center"></p>
+			</div>
+			</div>
+		</div>
+		<!-- container代码 结束 -->
+
+	</div>
+<input type="hidden" id="path" name="path" th:value="${#httpServletRequest.getContextPath()}" />
+<script type="text/javascript" th:src="@{/statics/js/jquery-1.11.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/artDialog/artDialog.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/artDialog/plugins/iframeTools.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/webuploader.min.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/diyUpload.js}"></script>
+<script th:inline="javascript"  type="text/javascript">
+	var path = $("#path").val();
+	var paId;
+	
+	/*添加图片事件 - start */
+	$(function () {
+		 
+    	var $tgaUpload = $('#goodsUpload').diyUpload({
+    	
+        url:path+'/user/pic/upload.json',
+        auto:false,
+        success:function( data ) {
+        	if(!data.error === 0){
+        		$("#message").html(data.message).show(20).delay(1500).hide(20);
+        	}
+        },
+        error:function( err ) {
+        	
+        },
+        buttonText : '',
+        accept: {
+            title: "Images",
+            extensions: 'gif,jpg,jpeg,bmp,png'
+        },
+        thumb:{
+            width:120,
+            height:90,
+            quality:100,
+            allowMagnify:true,
+            crop:true,
+            type:"image/jpeg"
+        }
+   	 });
+    	/*添加图片事件 - end */
+    	/* 图片上传事件 - start*/
+	$("#upload").click(function() {
+		
+		paId = $("#paId option:selected").val();
+		if(paId ==undefined || paId == ""|| paId == null){
+			
+			$("#message").html("请选择上传相册").show(20).delay(1500).hide(20);
+			return false;
+		}
+		//添加参数
+		$tgaUpload.options.formData.paId =paId;
+		$tgaUpload.upload();
+		
+	});
+	/* 图片上传事件 - end*/
+	/*打开相册窗口事件 -start*/
+        $("#addphotobox").click(function () {
+            art.dialog.open(path+"/user/pic/add.html", {
+            	id:"addpic",
+                title: "创建相册",
+                lock: true,
+                fixed: true,
+                width: "400px",
+                height: "300px",
+                close: function () {
+					var returnValue = art.dialog.data('returnValue');
+					if(returnValue == 1){
+						window.location.reload();
+						
+						}
+				}
+            });
+        });
+        /*打开相册窗口事件 -end*/
+    });
+	
+</script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>个人相册</title>
+<link rel="icon"  th:href="@{/statics/images/img/favicon.ico}" type="image/x-icon" />
+<link th:href="@{/statics/css/follower.css}" rel="stylesheet">
+<link th:href="@{/statics/css/base.css}" rel="stylesheet">
+<link th:href="@{/statics/css/main.css}" rel="stylesheet">
+<!-- 皮肤主题样式 -->
+<link th:href="@{'/statics/css/'+${userModel.userTheme}}" rel="stylesheet">
+<link th:href="@{/statics/css/detailpic.css}" rel="stylesheet">
+<!-- 弹窗样式 -->
+<link th:href="@{/statics/js/artDialog/skins/opera.css}" rel="stylesheet">
+<style>
+
+	.lispic li{
+		 border: 0px solid!important;
+	}
+</style>
+</head>
+<body>
+	<div id="wrapper">
+		<header>
+			<div class="headtop"></div>
+			<div class="logtop">
+				<a th:href="@{${'/user/'+loginUser.userLogin+'/main.html' }}" title="返回空间首页">欢迎，<span
+					th:text="${loginUser.userName}"></span>空间</a> <a href="#"
+					id="skin" style="cursor: pointer" th:remove="${session.userSession.id == userModel.id ? 'none' : 'all' }">装扮</a> <a id="logout"
+					onclick="doExit()" style="cursor: pointer;">|| 退出</a>
+			</div>
+			<div class="contenttop">
+				<div class="logo f_l">
+					<span><a href=""  th:text="${userModel.userName}">夏の花世界</a></span>
+					<p th:utext="${userModel.userSignature}==''?'暂无个性签名':${userModel.userSignature}"></p>
+				</div>
+
+				<div class="blank"></div>
+				<nav>
+					<div class="navigation">
+						<ul class="menu">
+							<li><a th:href="@{${'/user/'+userModel.userLogin+'/main.html'}}" >首页</a></li>
+							<li><a th:href="@{${'/user/att/'+userModel.userLogin+'/focus.html'}}">关注人</a></li>
+							<li><a th:href="@{${'/user/atc/'+userModel.userLogin+'/article.html'}}">文章</a></li>
+							<li><a th:href="@{${'/user/pic/'+userModel.userLogin+'/listpic.html'}}"  class="bj">相册</a></li>
+							<li><a th:href="@{${'/user/lea/'+userModel.userLogin+'/leave.html'}}">留言板</a></li>
+						</ul>
+					</div>
+				</nav>
+
+				<div class="search f_r">
+					<form action="/e/search/index.php" method="post" name="searchform"
+						id="searchform">
+						<input name="keyboard" id="keyboard" class="input_text"
+							value="请输入关键字" style="color: rgb(153, 153, 153);"
+							onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}"
+							onblur="if(value==''){this.style.color='#999';value='请输入关键字'}"
+							type="text"> <input name="show" value="title"
+							type="hidden"> <input name="tempid" value="1"
+							type="hidden"> <input name="tbname" value="news"
+							type="hidden"> <input name="Submit" class="input_submit"
+							value="搜索" type="submit">
+					</form>
+				</div>
+			</div>
+		</header>
+		<p id="message"  class="messagessm" align="center" ></p>
+		<div class="jztop"></div>
+		<div class="container">
+			<div class="con_content">
+				<div class="about_box">
+					<h2 class="nh1">
+						<span th:style="${userModel.id == session.userSession.id ? '' : 'display:none;'}"><a href="javascript:;" id="upload">上传图片</a>||<a href="javascript:;"
+							id="addphoto_box">创建相册</a></span><b>个人相册</b>
+					</h2>
+					<div class="lispic">
+						<ul th:each="photoAlbums : ${page.list}">
+							<li th:attr="id=pa+${photoAlbums.paId}"  >
+								<a href="javascript:;" class="getAlbums" th:attr="pid=${photoAlbums.paId}"  th:switch="${photoAlbums.paJurisdiction}">
+								   	<img th:src="@{/statics/images/pic/lock.png}" th:case="3">
+								   	<img th:src="@{${photoAlbums.paCoverimg} == ''? '/statics/images/pic/coverPlan.png' : ${photoAlbums.paCoverimg}}" th:case="*">
+								   	</a>
+								<div>
+									相册名称：<em th:text="${photoAlbums.paName}"></em> <a  th:attr="pid=${photoAlbums.paId}"  href="javascript:;" class="upPic hmanage editphoto_box" th:remove="${userModel.id != session.userSession.id ? 'all' : 'none'}">编辑</a>
+								</div>
+								<div>
+									<em th:text="${photoAlbums.photoNums}"></em>  张照片 
+									<em th:text="${#dates.format(photoAlbums.paCreatedate,'yyyy-MM-dd')}"></em> 
+									<a  th:attr="pid=${photoAlbums.paId}"   href="javascript:;" class="delPic hmanage delphoto_a" th:remove="${userModel.id != session.userSession.id ? 'all' : 'none'}">删除</a>
+								</div>
+								</li>
+						
+						</ul>
+					</div>
+					<div class="pagelist">
+					<div layout:fragment="page" >
+        						<div class="tcdPageCode"></div>
+					</div>
+				
+					</div>
+				</div>
+			</div>
+			<!-- con_content代码 结束 -->
+		</div>
+	</div>
+	<div class="jzend"></div>
+	<div class="blank"></div>
+	<footer>
+		<div class="footer">
+			<div class="f_l">
+				<p>
+					All Rights Reserved 版权所有：<a href="">Pandora工作室</a> 备案号：闽ICP备1234567890号
+				</p>
+			</div>
+			<div class="f_r textr">
+				<p>Design by DanceSmile</p>
+			</div>
+		</div>
+	</footer>
+<input type="hidden" id="path" name="path" th:value="${#httpServletRequest.getContextPath()}" />
+
+<input type="hidden" id="user"  th:value="${userModel.userLogin}">
+<script type="text/javascript" th:src="@{/statics/js/jquery-1.11.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/artDialog/artDialog.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/artDialog/plugins/iframeTools.source.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/message.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/setskin.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/listpic.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/jquery.page.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+		$(function(){
+			//创建分页
+			 $(".tcdPageCode").createPage({
+			        pageCount:  [[${page.totalPageCount}]],
+			        current: [[${page.currentPageNo}]],
+			        backFn: function(p) {
+			            search(p);
+			        }
+			    });
+			 
+				//查询方法
+			    function search(p) {
+			        location=path+"/user/pic/"+[[${userModel.userLogin}]]+"/listpic.html?page="+p;
+
+			    }
+		});
+	</script>
+</body>
+</html>

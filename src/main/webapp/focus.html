@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>QQ空间——江南墨卷</title>
+<link rel="icon"  th:href="@{/statics/images/img/favicon.ico}" type="image/x-icon" />
+<link th:href="@{/statics/css/iconfont.css}" rel="stylesheet">
+<link th:href="@{/statics/css/base.css}" rel="stylesheet">
+<link th:href="@{/statics/css/index.css}" rel="stylesheet">
+<link th:href="@{/statics/css/main.css}" rel="stylesheet">
+<link th:href="@{/statics/css/follower.css}" rel="stylesheet">
+<!-- 皮肤主题样式 -->
+<link th:href="@{'/statics/css/'+${userModel.userTheme}}" rel="stylesheet">
+
+<!-- 弹窗样式 -->
+<link rel="stylesheet" th:href="@{/statics/js/artDialog/skins/opera.css}" type="text/css" />
+<style>
+h4 {
+	font-size: 12px;
+	font-family: 宋体;
+	padding-left: 14px;
+}
+
+label {
+	font-family: 宋体;
+}
+</style>
+
+</head>
+<body>
+	<div id="wrapper">
+		<header>
+			<div class="headtop"></div>
+			<div class="logtop">
+				<a th:href="@{${'/user/'+loginUser.userLogin+'/main.html' }}" title="返回空间首页">欢迎，<span
+					th:text="${loginUser.userName}"></span>空间</a> <a href="#"
+					id="skin" style="cursor: pointer" th:remove="${session.userSession.id == userModel.id ? 'none' : 'all' }">装扮</a> <a id="logout"
+					onclick="doExit()" style="cursor: pointer;">|| 退出</a>
+			</div>
+			<div class="contenttop">
+				<div class="logo f_l">
+					<span><a href=""  th:text="${userModel.userName}">夏の花世界</a></span>
+					<p th:utext="${userModel.userSignature}==''?'暂无个性签名':${userModel.userSignature}"></p>
+				</div>
+
+				<div class="blank"></div>
+				<nav>
+					<div class="navigation">
+						<ul class="menu">
+							<li><a th:href="@{${'/user/'+userModel.userLogin+'/main.html'}}"  >首页</a></li>
+							<li><a th:href="@{${'/user/att/'+userModel.userLogin+'/focus.html'}}" class="bj">关注人</a></li>
+							<li><a th:href="@{${'/user/atc/'+userModel.userLogin+'/article.html'}}" >文章</a></li>
+							<li><a th:href="@{${'/user/pic/'+userModel.userLogin+'/listpic.html'}}">相册</a></li>
+							<li><a th:href="@{${'/user/lea/'+userModel.userLogin+'/leave.html'}}">留言板</a></li>
+						</ul>
+					</div>
+				</nav>
+
+				<div class="search f_r">
+					<form action="/e/search/index.php" method="post" name="searchform"
+						id="searchform">
+						<input name="keyboard" id="keyboard" class="input_text"
+							value="请输入关键字" style="color: rgb(153, 153, 153);"
+							onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}"
+							onblur="if(value==''){this.style.color='#999';value='请输入关键字'}"
+							type="text"> <input name="show" value="title"
+							type="hidden"> <input name="tempid" value="1"
+							type="hidden"> <input name="tbname" value="news"
+							type="hidden"> <input name="Submit" class="input_submit"
+							value="搜索" type="submit">
+					</form>
+				</div>
+
+
+			</div>
+		</header>
+		<p id="message"  class="messagessm" align="center" ></p>
+		<!-- 相册图片展示开始 -->
+		<div class="jztop"></div>
+		<div class="container container-t">
+			<div class="bloglist f_l">
+				<div class="about_box">
+					<h2 class="nh1">
+						 <b>关注人</b>
+					</h2>
+					<div class="m-glist" style="overflow: hidden;">
+						<ul class="f-cb ztag" style="background-color: transparent;" >
+						
+							<li th:attr="id=fo+${followModel.foBeuserid}" th:each="followModel : ${page.list}">
+								<div class="w-img2 w-img2-1">
+									<a href="javascript:;" class="getUserMain"  th:attr="luid=${followModel.userModel.userLogin}" ><img class="xtag" th:src="@{${followModel.userModel.userPhotoimg == '' ? '/statics/images/head.png' : followModel.userModel.userPhotoimg}}"
+										></a>
+								</div>
+								<div class="userN">
+								
+									<h4 ><span th:text="${followModel.userModel.userName}"></span><span class="nssx"   th:text="'关注 '+${followModel.userModel.followCount}"></span></h4>
+									
+								
+								</div>
+								<div class="cnt">
+									<label th:text="${followModel.userModel.userSignature}">冥冥中一种花香...</label>
+								</div>
+									
+								<div class="cancel" ><span  th:text="' 粉丝  '+${followModel.userModel.fans}"></span><a href="javascript:;" class="btnygz" th:attr="uid=${followModel.foBeuserid}" th:remove="${userModel.id == session.userSession.id ? 'none' : 'all'}">取消关注</a></div>
+								
+							</li>
+							
+
+						</ul>
+					</div>
+
+					<div class="pagelist"
+						style="text-align: center; color: #666; width: 100%; clear: both; margin: 10px 0; display: block; padding: 24px 0px 0px 0px;">
+					<div layout:fragment="page" >
+        								<div class="tcdPageCode"></div>
+        						</div>			
+					</div>
+				</div>
+			</div>
+			<div class="r_box f_r">
+				<div class="user">
+					<h3 class="tit">关于我</h3>
+
+					<div class="ms-avatar">
+						<a th:href="@{${'/user/'+userModel.userLogin}+'/userInfo.html'}" th:if="${userModel.userPhotoimg ne ''}"><img
+							th:src="@{${userModel.userPhotoimg}}"></a>
+							<a  th:href="@{${'/user/'+userModel.userLogin}+'/userInfo.html'}" th:if="${userModel.userPhotoimg eq ''}"><img
+							th:src="@{/statics/images/head.png}"></a>
+							<a th:href="@{${'/user/'+userModel.userLogin}+'/userInfo.html'}" ><strong th:text="${userModel.userName}">水墨话</strong></a>
+							<button type="button" th:class="' gzccc btnwgz fol'+${userModel.id}"  th:if="${exflag == false} " th:attr="uid=${userModel.id}" th:remove="${session.userSession.id != userModel.id ? 'none' : 'all' }"><span class="icon iconfont icon-iconfonttaguanzhuwo s1"></span><span class="s2"> 关注ta</span></button>
+							<button  th:class="'  gzccc btnygz  fol'+${userModel.id}" type="button" th:attr="uid=${userModel.id}" th:if="${exflag != false} "  th:remove="${session.userSession.id != userModel.id ? 'none' : 'all' }"><span class="icon iconfont icon-woguanzhuta s1"></span><span class="s2">   已关注</span></button>
+						<ul class="ms-personal">
+							<li>性 别：<span th:text="${userModel.userGender==1?'男':'女'}"></span></li>
+							<li>爱 好：<span th:text="${userModel.userLoves}==''?'-':${userModel.userLoves}"></span></li>
+							<li>现居地：<span th:text="${userModel.userAddress}==''?'-':${userModel.userAddress}"></span></li>
+							<li>最后登录时间：<span th:text="${#dates.format(userModel.userLogintime,'yyyy-MM-dd')}"></span></li>
+						</ul>
+					</div>
+				</div>
+				<!--tit01 end-->
+
+				<div class="ph">
+					<h3 class="tit">相关推荐</h3>
+					<ul class="rank recommend">
+						
+					</ul>
+				</div>
+				<div class="ad">
+					<img th:src="@{/statics/images/03.jpg}">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="jzend"></div>
+	<div class="blank"></div>
+
+	<footer>
+		<div class="footer">
+			<div class="f_l">
+				<p>
+					All Rights Reserved 版权所有：<a href="">Pandora工作室</a> 备案号：闽ICP备1234567890号
+				</p>
+			</div>
+			<div class="f_r textr">
+				<p>Design by DanceSmile</p>
+			</div>
+		</div>
+	</footer>
+<input type="hidden" id="path" name="path" th:value="${#httpServletRequest.getContextPath()}" />
+<input type="hidden" id="user" th:value="${userModel.userLogin}">
+<script type="text/javascript" th:src="@{/statics/js/jquery-1.11.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/artDialog/artDialog.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/artDialog/plugins/iframeTools.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/message.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/setskin.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/focus.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/jquery.page.js}"></script>
+<script type="text/javascript" th:src="@{/statics/js/recommendarticle.js}"></script>
+
+<script type="text/javascript" th:inline="javascript">
+		$(function(){
+			//创建分页
+			 $(".tcdPageCode").createPage({
+				 
+			        pageCount:  [[${page.totalPageCount}]],
+			        current: [[${page.currentPageNo}]],
+			        backFn: function(p) {
+			            search(p);
+			        }
+			    });
+				//查询方法
+			    function search(p) {
+			        location=path+"/user/att/"+[[${userModel.userLogin}]]+"/focus.html?page="+p;
+			    }
+		});
+</script>
+</body>
+
+</html>

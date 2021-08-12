@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>QQ空间 个人信息</title>
+<link rel="icon"  th:href="@{/statics/images/img/favicon.ico}" type="image/x-icon" />
+<link th:href="@{/statics/css/base.css}" rel="stylesheet">
+<link th:href="@{/statics/css/index.css}" rel="stylesheet">
+<link th:href="@{/statics/css/main.css}" rel="stylesheet">
+<link th:href="@{'/statics/css/'+${userModel.userTheme}}"
+	rel="stylesheet">
+<!-- 富文本框样式 -->
+<link rel="stylesheet"
+	th:href="@{/statics/js/kind/themes/default/default.css}"
+	type="text/css">
+<!-- 弹窗样式 -->
+<link rel="stylesheet"
+	th:href="@{/statics/js/artDialog/skins/opera.css}" type="text/css" />
+<style>
+.a_title {
+	text-align: left;
+}
+
+td.lst.f_r {
+	font-weight: bold;
+}
+
+table.dtab {
+	line-height: 30px;
+}
+
+.con_content {
+	width: 620px;
+	margin-left: 20px;
+	overflow: hidden;
+	margin-left: 20px;
+}
+
+.width200 {
+	width: 220px;
+}
+
+.dtab td input, select {
+	line-height: 27px;
+	padding-left: 3px;
+}
+
+.dtab td {
+	width: 87px;
+	height: 40px;
+}
+
+.btn_save {
+	margin: 20px;
+	padding: 10px;
+	width: 180px;
+	height: auto;
+	font-size: 16px;
+}
+
+.updatePwd {
+	cursor: pointer
+}
+
+#message {
+	display:none;
+	color: #f5f3ec;
+	font-size: 12px;
+	z-index: 1;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	padding: 16px 15px;
+	background: rgba(0,0,0,0.5);
+	border-radius:5px;
+}
+
+table tr td span {
+	color: #B40404;
+	font-size: 14px;
+	margin-right: 3px;
+}
+</style>
+
+</head>
+
+<body>
+	<div id="wrapper">
+		<header>
+			<div class="headtop"></div>
+			<div class="logtop">
+				<a th:href="@{/user/main.html}" title="返回首页">欢迎，<span
+					th:text="${userModel.userName}"></span></a> <a href="#" id="skin"
+					style="cursor: pointer">装扮</a> <a id="logout" onclick="doExit()"
+					style="cursor: pointer;">|| 退出</a>
+			</div>
+			<div class="contenttop">
+				<div class="logo f_l">
+					<span><a href="/" th:text="${userModel.userName}">夏の花世界</a></span>
+					<p
+						th:utext="${userModel.userSignature}==''?'暂无个性签名':${userModel.userSignature}"></p>
+
+				</div>
+				<div class="blank"></div>
+				<nav>
+					<div class="navigation">
+						<ul class="menu">
+							<li><a th:href="@{${'/user/'+userModel.userLogin+'/main.html'}}"  class="bj">首页</a></li>
+							<li><a th:href="@{${'/user/att/'+userModel.userLogin+'/focus.html'}}">关注人</a></li>
+							<li><a th:href="@{${'/user/atc/'+userModel.userLogin+'/article.html'}}">文章</a></li>
+							<li><a th:href="@{${'/user/pic/'+userModel.userLogin+'/listpic.html'}}">相册</a></li>
+							<li><a th:href="@{${'/user/lea/'+userModel.userLogin+'/leave.html'}}">留言板</a></li>
+						</ul>
+					</div>
+				</nav>
+				<div class="search f_r">
+					<form action="/e/search/index.php" method="post" name="searchform"
+						id="searchform">
+						<input name="keyboard" id="keyboard" class="input_text"
+							value="请输入关键字" style="color: rgb(153, 153, 153);"
+							onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}"
+							onblur="if(value==''){this.style.color='#999';value='请输入关键字'}"
+							type="text"> <input name="show" value="title"
+							type="hidden"> <input name="tempid" value="1"
+							type="hidden"> <input name="tbname" value="news"
+							type="hidden"> <input name="Submit" class="input_submit"
+							value="搜  索" type="submit">
+					</form>
+				</div>
+			</div>
+		</header>
+		<div class="jztop"></div>
+		<div class="container">
+
+			<div class="bloglist f_l">
+				<div class="about_box">
+					<h2 class="nh1">
+						<b>资料修改</b><span class="updatePwd">修改密码<span>
+					</h2>
+					<form id="userInfoedit"  onsubmit="return false";
+						th:object="${userModel}" th:method="post">
+						<input type="hidden" class="width200" th:field="*{id}" />
+						<p id="message" align="center" ></p>
+						<table class="dtab">
+							<tr>
+								<td class="lst f_r" style="text-align: right;"><span>*</span>昵称：</td>
+								<td><input type="text" class="width200" maxlength="16"
+									th:field="*{userName}" /></td>
+							</tr>
+							<tr>
+								<td class="lst f_r" style="text-align: right;"><span>*</span>性
+									别：</td>
+								<td>
+									<div>
+										<input type="radio" value="1" th:field="*{userGender}" /> 男 <input
+											type="radio" value="2" th:field="*{userGender}" /> 女
+									</div>
+
+								</td>
+							</tr>
+
+							<tr>
+								<td class="lst f_r" style="text-align: right;"><span>*</span>生
+									日：</td>
+								<td><input id='mydatepicker' type="date" class="width200"
+									style="color: rgb(153, 153, 153);" th:field="*{userBirthday}"></td>
+							</tr>
+							<tr>
+								<td class="lst f_r" style="text-align: right;">爱好：</td>
+								<td><input type='text' class="width200" maxlength="16"
+									th:field="*{userLoves}"></td>
+							</tr>
+							<tr>
+								<td class="lst f_r" style="text-align: right;"><span>*</span>地
+									地：</td>
+								<td><input type='text' class="width200" maxlength="24"
+									th:field="*{userAddress}"></td>
+							</tr>
+
+							<tr>
+								<td class="lst f_r" style="text-align: right;"><span>*</span>手
+									机：</td>
+								<td><input type="text" class="width200" maxlength="11"
+									th:field="*{userTelphone}"></td>
+							</tr>
+							<tr>
+								<td class="lst f_r" style="text-align: right;"><span>*</span>邮
+									箱：</td>
+								<td><input type="text" class="width200"
+									th:field="*{userEmail}"></td>
+							</tr>
+							<tr>
+								<td class="lst f_r" style="text-align: right;">签 名：</td>
+								<td><textarea class="test"
+										style="width: 523px; height: 50px; padding: 5px; resize: none;"
+										rows="3" th:field="*{userSignature}"></textarea></td>
+							</tr>
+							<tr>
+								<td class="lst f_r"
+									style="padding-top: 20px; text-align: right;"><span>*</span>个人简介：</td>
+								<td style="padding-top: 20px;"><textarea id="userIntro"
+										style="width: 520px; height: 400px;" th:field="*{userIntro}"> 		 
+			</textarea></td>
+							</tr>
+						</table>
+						<div class="btnOperation" style="clear: both;">
+							<input id="saveuserInfo" type="button" value="保存修改"
+								class="btn_save input_submit" />
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="r_box f_r">
+				<div class="user" style="height: auto;">
+					<h3 class="tit">关于我</h3>
+					<div class="ms-avatar">
+						<input type="hidden" id="hpic" name="pic" value="" />
+						 <a th:if="${userModel.userPhotoimg ne ''}">
+						 	<img id="imgShow" th:src="@{${userModel.userPhotoimg}}">
+						 	</a> 
+						 <a th:if="${userModel.userPhotoimg eq ''}">
+						 <img id="imgShow" th:src="@{/statics/images/head.png}">
+						 	</a>
+						  <input type="button" id="btnUploadFile" value="更换头像" />
+						  <br />
+						<ul class="ms-personal">
+							<li>性 别：<span
+								th:text="${userModel.userGender}==0?'-':${userModel.userGender==1?'男':'女'}"></span></li>
+							<li>爱 好：<span
+								th:text="${userModel.userLoves}==''?'-':${userModel.userLoves}"></span></li>
+							<li>现居地：<span
+								th:text="${userModel.userAddress}==''?'-':${userModel.userAddress}"></span></li>
+							<li>最后登录时间：<span
+								th:text="${#dates.format(userModel.userLogintime,'yyyy-MM-dd')}"></span></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="ph">
+					<h3 class="tit">相关推荐</h3>
+					<ul class="rank recommend">
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- container代码 结束 -->
+
+	</div>
+	<div class="jzend"></div>
+	<footer>
+		<div class="footer">
+			<div class="f_l">
+				<p>
+					All Rights Reserved 版权所有：<a href="">Pandora工作室</a> 备案号：闽ICP备1234567890号
+				</p>
+			</div>
+			<div class="f_r textr">
+				<p>Design by DanceSmile</p>
+			</div>
+		</div>
+	</footer>
+	<input type="hidden" id="path" name="path"
+		th:value="${#httpServletRequest.getContextPath()}" />
+	<input type="hidden" id="user" th:value="${userModel.userLogin}">
+		<script type="text/javascript"
+		th:src="@{/statics/js/jquery-1.11.0.min.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/statics/js/kind/kindeditor-all-min.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/statics/js/kind/lang/zh-CN.js}"></script>	
+	<script type="text/javascript"
+		th:src="@{/statics/js/artDialog/artDialog.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/statics/js/artDialog/plugins/iframeTools.js}"></script>
+	<script type="text/javascript" th:src="@{/statics/js/message.js}"></script>
+	<script type="text/javascript" th:src="@{/statics/js/setskin.js}"></script>
+	<script type="text/javascript" th:src="@{/statics/js/useredit.js}"></script>
+    <script type="text/javascript" th:src="@{/statics/js/recommendarticle.js}"></script>
+</body>
+</html>

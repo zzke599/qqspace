@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>文章列表页</title>
+<link rel="icon"  th:href="@{/statics/images/img/favicon.ico}" type="image/x-icon" />
+<link th:href="@{/statics/css/follower.css}" rel="stylesheet">
+<link th:href="@{/statics/css/base.css}" rel="stylesheet">
+<link th:href="@{/statics/css/index.css}" rel="stylesheet">
+<link th:href="@{/statics/css/main.css}" rel="stylesheet">
+<link th:href="@{'/statics/css/'+${userModel.userTheme}}" rel="stylesheet">
+<!-- 弹窗样式 -->
+<link rel="stylesheet" th:href="@{/statics/js/artDialog/skins/opera.css}" type="text/css" />
+
+</head>
+<body>
+	<div id="wrapper">
+		<header>
+			<div class="headtop"></div>
+			<div class="logtop">
+				<a th:href="@{${'/user/'+loginUser.userLogin+'/main.html' }}" title="返回空间首页">欢迎，<span
+					th:text="${loginUser.userName}"></span>空间</a> <a href="#"
+					id="skin" style="cursor: pointer" th:remove="${session.userSession.id == userModel.id ? 'none' : 'all' }">装扮</a> <a id="logout"
+					onclick="doExit()" style="cursor: pointer;">|| 退出</a>
+			</div>
+			<div class="contenttop">
+				<div class="logo f_l">
+					<span><a href=""  th:text="${userModel.userName}">夏の花世界</a></span>
+					<p th:utext="${userModel.userSignature}==''?'暂无个性签名':${userModel.userSignature}"></p>
+				</div>
+
+				<div class="blank"></div>
+				<nav>
+					<div class="navigation">
+						<ul class="menu">
+							<li><a th:href="@{${'/user/'+userModel.userLogin+'/main.html'}}"  >首页</a></li>
+							<li><a th:href="@{${'/user/att/'+userModel.userLogin+'/focus.html'}}">关注人</a></li>
+							<li><a th:href="@{${'/user/atc/'+userModel.userLogin+'/article.html'}}" class="bj">文章</a></li>
+							<li><a th:href="@{${'/user/pic/'+userModel.userLogin+'/listpic.html'}}">相册</a></li>
+							<li><a th:href="@{${'/user/lea/'+userModel.userLogin+'/leave.html'}}">留言板</a></li>
+						</ul>
+					</div>
+				</nav>
+
+				<div class="search f_r">
+					<form action="/e/search/index.php" method="post" name="searchform"
+						id="searchform">
+						<input name="keyboard" id="keyboard" class="input_text"
+							value="请输入关键字" style="color: rgb(153, 153, 153);"
+							onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}"
+							onblur="if(value==''){this.style.color='#999';value='请输入关键字'}"
+							type="text"> <input name="show" value="title"
+							type="hidden"> <input name="tempid" value="1"
+							type="hidden"> <input name="tbname" value="news"
+							type="hidden"> <input name="Submit" class="input_submit"
+							value="搜索" type="submit">
+					</form>
+				</div>
+			</div>
+		</header>
+		<p id="message"  class="messagessm" align="center" ></p>
+		<div class="jztop"></div>
+		<div class="container container-t " style="min-height: 700px">
+			<div class="bloglist f_l">
+				<div class="about_box">
+					<h2 class="nh1">
+						<b>我的文章</b><a class="operate" style="float: right;"
+							th:href="@{/user/atc/add.html}" th:remove="${userModel.id == session.userSession.id ? 'none' : 'all'}">添加</a>
+					</h2>
+					<div class="dtxw box" >
+					<!--  -->
+					<ul class="abox">
+					
+					<li th:attr="id=atc+${articleModel.articleId}" th:each="articleModel : ${page.list}">
+							<div class="dttext f_l">
+							<h2>
+										<a href="javascript:;" class="getabout" th:text="${articleModel.articleTitle}"  th:attr="aid=${articleModel.articleId},luid=${userModel.userLogin}">也许离</a>
+									</h2>
+								<div class="xwpic f_r">
+									<a href="javascript:;" class="getabout" th:attr="aid=${articleModel.articleId},luid=${userModel.userLogin}"><img th:src="@{${articleModel.articleImage =='' ?  '/statics/images/kongbai.png' :  articleModel.articleImage}}"></a>
+								</div>
+								<ul>
+									
+									<div class="autor">
+										<span th:text="'作者：'+ ${articleModel.articleAuthor}"></span> <span th:text="'分类：[ '+ ${articleModel.articleLabeName}+' ]'"></a>
+										</span> <span th:text="${#dates.format(articleModel.articleCreatedate,'yyyy-MM-dd')}"></span>
+									</div>
+									<p class="journal" th:text="${articleModel.articleIntro}">
+
+									</p>
+									<div class="operate" th:remove="${userModel.id == session.userSession.id ? 'none' : 'all'}">
+										<a href="javascript:;"  class="upArticle"  th:attr="aid=${articleModel.articleId}" >编辑</a>| 
+										<a href="javascript:;"  class="delArticle" th:attr="aid=${articleModel.articleId}" >删除</a>
+									</div>
+								</ul>
+
+							</div>
+						</li>	
+					</ul>
+						
+
+
+					</div>
+
+					<!-- 分页开始 -->
+					<div class="manage_bottom"
+						style="text-align: center; margin-top: 30px;">
+						<div layout:fragment="page" >
+        						<div class="tcdPageCode"></div>
+						</div>
+				
+				   </div>
+				</div>
+			</div>
+			<div class="r_box f_r">
+				<div class="ph">
+					<h3 class="tit">分类</h3>
+					<ul class="rank" >
+						<li th:each="labelModel : ${labelModels}" th:attr="id=lab+${labelModel.labelId}">
+						       <a class="delType"  href="javascript:;"  th:attr="tid=${labelModel.labelId}" th:remove="${userModel.id == session.userSession.id ? 'none' : 'all'}">删除</a>
+							   <a class="upType"  href="javascript:;"   th:attr="tid=${labelModel.labelId}" th:remove="${userModel.id == session.userSession.id ? 'none' : 'all'}">编辑</a> 
+							   <a th:href="@{${'/user/atc/'+userModel.userLogin+'/article.html?label='+labelModel.labelId}}" th:class="tname+${labelModel.labelId}" th:text="${labelModel.labelName}">心灵鸡汤</a>
+						</li>
+						
+						<li id="addType" th:remove="${userModel.id == session.userSession.id ? 'none' : 'all'}">
+							   <a class="addType" href="javascript:;">点击添加分类</a>
+						</li>
+					</ul>
+				</div>
+				<!--tit01 end-->
+				<div class="ph">
+					<h3 class="tit">相关推荐</h3>
+					<ul class="rank recommend" >
+					</ul>
+				</div>
+				<div class="ad">
+					<img th:src="@{/statics/images/03.jpg}">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="jzend"></div>
+	<footer>
+		<div class="footer">
+			<div class="f_l">
+				<p>
+					All Rights Reserved 版权所有：<a href="">Pandora工作室</a> 备案号：闽ICP备1234567890号
+				</p>
+			</div>
+			<div class="f_r textr">
+				<p>Design by DanceSmile</p>
+			</div>
+		</div>
+	</footer>
+	<input type="hidden" id="path" name="path" th:value="${#httpServletRequest.getContextPath()}" />
+	<input type="hidden" id="user"  th:value="${userModel.userLogin}">
+	<script type="text/javascript" th:src="@{/statics/js/jquery-1.11.0.min.js}"></script>
+	<script type="text/javascript" th:src="@{/statics/js/artDialog/artDialog.js}"></script>
+	<script type="text/javascript" th:src="@{/statics/js/artDialog/plugins/iframeTools.js}"></script>
+	<script type="text/javascript" th:src="@{/statics/js/message.js}"></script>
+	<script type="text/javascript" th:src="@{/statics/js/setskin.js}"></script>
+	<script type="text/javascript" th:src="@{/statics/js/article.js}"></script>
+	<script type="text/javascript" th:src="@{/statics/js/jquery.page.js}"></script>
+	<script type="text/javascript" th:src="@{/statics/js/recommendarticle.js}"></script>
+	<script type="text/javascript" th:inline="javascript">
+		
+		$(function(){
+			//创建分页
+			 $(".tcdPageCode").createPage({
+			        pageCount:  [[${page.totalPageCount}]],
+			        current: [[${page.currentPageNo}]],
+			        backFn: function(p) {
+			            search(p);
+			        }
+			    });
+			 
+				//查询方法
+			    function search(p) {
+					var label = [[${label}]];
+					if(label == "" || label == null)
+			        	location=path+"/user/atc/"+[[${userModel.userLogin}]]+"/article.html?page="+p;
+					else
+						location=path+"/user/atc/"+[[${userModel.userLogin}]]+"/article.html?label="+label+"&page="+p;
+			    }
+		});
+	</script>
+</body>
+</html>

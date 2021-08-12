@@ -1,0 +1,292 @@
+.clearfix {
+	clear: both;
+}
+
+div.text_user {
+	width: 75px;
+	text-align: right;
+	float: left;
+	height: 35px;
+	margin-top: 11px;
+}
+
+div.text_user span {
+	display: block;
+}
+
+.width200 {
+	width: 220px;
+}
+
+input, select {
+	/*height: 30px;*/
+	line-height: 27px;
+	padding-left: 3px;
+}
+
+input.btn_save {
+	background-color: #333;
+	color: #FFF;
+	width: 180px;
+	border: none;
+	cursor: pointer;
+	height: 43px;
+	line-height: 26px;
+	border-radius: 5px;
+	font-size: 23px;
+	font-family: "ï¿½ï¿½ï¿½ï¿½";
+	margin-left: 83px;
+	margin-top: 202px;
+}
+
+form.main_form {
+	margin: 36px auto;
+	/* margin-bottom: 100px; */
+	/* border: 1px solid rgba(255, 0, 0, 0.02); */
+	margin-top: 10px;
+	margin-left: 47px;
+	/* text-align: center; */
+	vertical-align:;
+}
+
+.btnOperation {
+	margin-left: 227px;
+}
+
+.calendar {
+	position: relative;
+	font-family: 'Century Gothic', 'Segoe UI', Calibri, Arial;
+	font-size: 12px;
+	border-collapse: collapse;
+	margin: 0;
+	padding: 0;
+	z-index: 4;
+	border: 1px solid rgba(0, 0, 0, 0.08);
+	width: 250px;
+	color: #000;
+	text-align: center;
+	background-color: #FFF;
+}
+
+.calendar th, .calendar td {
+	text-align: center;
+	-webki-ttransition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+}
+
+.calendar th:first-child, .calendar td:first-child {
+	margin-left: 5px;
+}
+
+.calendar span {
+	padding: 6px 4px;
+	display: block;
+}
+
+.calendar .month {
+	padding: 15px;
+}
+
+.calendar .pMDate, .calendar .nMDate {
+	color: #AAA;
+}
+
+.calendar .date, .calendar .pMDate, .calendar .nMDate, .calendar .month
+	{
+	cursor: pointer;
+}
+
+.calendar .date.disabled, .calendar .pMDate.disabled, .calendar .nMDate.disabled
+	{
+	cursor: not-allowed;
+}
+
+.calendar .date:not (.disabled ):hover, .calendar .pMDate:not (.disabled
+	 ):hover, .calendar .nMDate:not (.disabled ):hover, .calendar .month:hover
+	{
+	background-color: #E2E2E2;
+}
+
+.calendar .date:not (.disabled ):active, .calendar .pMDate:not (.disabled
+	 ):active, .calendar .nMDate:not (.disabled ):active, .calendar .month:active
+	{
+	background-color: #22A7F0;
+	color: #FFF;
+}
+
+.calendar .selected {
+	background-color: #22A7F0 !important;
+	color: #FFF !important;
+}
+
+.calendar tr:first-child th {
+	background-color: #FFF;
+	padding: 4px;
+	padding-top: 8px;
+	font-size: 14px;
+}
+
+.calendar tr:first-child th {
+	cursor: pointer;
+	color: #000;
+}
+
+.calendar tr:first-child th:hover {
+	color: #22A7F0;
+}
+
+.calendar tr:first-child th:active {
+	color: #22A7F0;
+}
+
+.calendar thead tr:nth-child(2) th {
+	color: #555;
+	padding: 8px 3px;
+}
+
+.calendar #prev, .calendar #next {
+	font-family: 'Times New Roman';
+	font-size: 20px;
+	padding: 0;
+}
+
+.calendar #today {
+	text-align: center;
+	cursor: pointer;
+	color: #22A7F0;
+	padding: 10px 6px;
+}
+
+.calendar #today:hover {
+	color: #80A7DD;
+}
+
+.calendar #today:active {
+	color: #000;
+}
+
+.calendar #currDay {
+	color: #22A7F0;
+}
+
+.datepicker {
+	background: url('../images/icon.png') transparent right no-repeat;
+	background-size: contain;
+}
+
+.autor {
+	margin: 0px
+}
+
+div.input_info {
+	float: left;
+	height: 40px;
+}
+
+div.text_user {
+	width: 75px;
+	text-align: right;
+	float: left;
+	height: 35px;
+	margin-top: 11px;
+}
+
+.bloglist {
+	width: 80%;
+	overflow: hidden;
+}
+
+div.text_user {
+	width: 75px;
+	text-align: right;
+	float: left;
+	height: 35px;
+	margin-top: 11px;
+}
+
+.portrait {
+	font-size: 60px;
+	margin: 10px 20px 0 160px;
+}
+
+div.input_info {
+	margin-left: 10px;
+}
+
+.ke-inline-block {
+	display: -moz-inline-stack;
+	display: inline-block;
+	vertical-align: middle;
+	zoom: 1;
+	margin-left: -52px;
+}
+
+form.main_form {
+	margin: 36px auto;
+	margin-bottom: 71px;
+	margin-top: 10px;
+	margin-left: 83px;
+	vertical-align:;
+}
+
+textarea {
+	width: 100%;
+	height: 80px;
+	border-radius: 8px;
+	line-height: 27px;
+	padding-left: 3px;
+}
+
+.a_title {
+	text-align: left;
+}
+
+td.lst.f_r {
+	font-weight: bold;
+}
+
+table.dtab {
+	line-height: 30px;
+}
+
+.con_content {
+	width: 620px;
+	margin-left: 20px;
+	overflow: hidden;
+	margin-left: 20px;
+}
+
+.nh1 {
+	font-size: 1.5em;
+}
+
+.width200 {
+	width: 220px;
+}
+
+input, select {
+	line-height: 27px;
+	padding-left: 3px;
+}
+
+.dtab td {
+	height: 40px;
+}
+
+input.btn_save {
+	background-color: rgb(51, 51, 51);
+	color: rgb(255, 255, 255);
+	width: 180px;
+	cursor: pointer;
+	height: 43px;
+	line-height: 26px;
+	font-size: 23px;
+	margin-left: 83px;
+	margin-top: 20px;
+	border-width: initial;
+	border-style: none;
+	border-color: initial;
+	border-image: initial;
+	border-radius: 5px;
+}

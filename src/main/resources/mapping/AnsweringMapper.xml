@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qqspace.dao.AnsweringMapper">
+  <resultMap id="BaseResultMap" type="com.qqspace.bean.Answering">
+
+    <id column="an_id" jdbcType="INTEGER" property="anId" />
+    <result column="an_date" jdbcType="TIMESTAMP" property="anDate" />
+    <result column="an_leaveId" jdbcType="INTEGER" property="anLeaveid" />
+    <result column="an_userid" jdbcType="INTEGER" property="anUserid" />
+    <result column="an_messageId" jdbcType="INTEGER" property="anMessageid" />
+    <!--留言回复者博客名  -->
+    <result column="an_leaveName" jdbcType="VARCHAR" property="anLeaveName" />
+    <!-- 留言被回复者博客名 -->
+    <result column="an_userName" jdbcType="VARCHAR" property="anUserName" />
+    
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.qqspace.bean.Answering">
+
+    <result column="an_content" jdbcType="LONGVARCHAR" property="anContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+
+    an_id, an_date, an_leaveId, an_userid, an_messageId
+  </sql>
+  <sql id="Blob_Column_List">
+
+    an_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from answering_info
+    where an_id = #{anId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByAnId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+
+    SELECT answering_info.*,
+    b.user_name as an_leaveName,
+    c.user_name as an_userName 
+    FROM answering_info 
+	LEFT JOIN user_info b on an_leaveId = b.id 
+	LEFT JOIN user_info c ON an_userid = c.id 
+	 where an_id = #{anId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByAnMessageId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+
+    SELECT answering_info.*,
+    b.user_name as an_leaveName,
+    c.user_name as an_userName 
+    FROM answering_info 
+	LEFT JOIN user_info b on an_leaveId = b.id  
+	LEFT JOIN user_info c ON an_userid = c.id 
+	where an_messageId = #{anMessageid,jdbcType=INTEGER} 
+	ORDER BY an_date 
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+
+    delete from answering_info
+    where an_id = #{anId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByAnMessageid" parameterType="java.lang.Integer">
+
+    delete from answering_info
+    where an_messageId = #{anMessageid,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.qqspace.bean.Answering" keyProperty="anId" useGeneratedKeys="true">
+
+    insert into answering_info (an_id, an_date, an_leaveId, 
+      an_userid, an_messageId, an_content
+      )
+    values (#{anId,jdbcType=INTEGER}, #{anDate,jdbcType=TIMESTAMP}, #{anLeaveid,jdbcType=INTEGER}, 
+      #{anUserid,jdbcType=INTEGER}, #{anMessageid,jdbcType=INTEGER}, #{anContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qqspace.bean.Answering" keyProperty="anId" useGeneratedKeys="true">
+
+    insert into answering_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="anId != null">
+        an_id,
+      </if>
+      <if test="anDate != null">
+        an_date,
+      </if>
+      <if test="anLeaveid != null">
+        an_leaveId,
+      </if>
+      <if test="anUserid != null">
+        an_userid,
+      </if>
+      <if test="anMessageid != null">
+        an_messageId,
+      </if>
+      <if test="anContent != null">
+        an_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="anId != null">
+        #{anId,jdbcType=INTEGER},
+      </if>
+      <if test="anDate != null">
+        #{anDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="anLeaveid != null">
+        #{anLeaveid,jdbcType=INTEGER},
+      </if>
+      <if test="anUserid != null">
+        #{anUserid,jdbcType=INTEGER},
+      </if>
+      <if test="anMessageid != null">
+        #{anMessageid,jdbcType=INTEGER},
+      </if>
+      <if test="anContent != null">
+        #{anContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qqspace.bean.Answering">
+
+    update answering_info
+    <set>
+      <if test="anDate != null">
+        an_date = #{anDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="anLeaveid != null">
+        an_leaveId = #{anLeaveid,jdbcType=INTEGER},
+      </if>
+      <if test="anUserid != null">
+        an_userid = #{anUserid,jdbcType=INTEGER},
+      </if>
+      <if test="anMessageid != null">
+        an_messageId = #{anMessageid,jdbcType=INTEGER},
+      </if>
+      <if test="anContent != null">
+        an_content = #{anContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where an_id = #{anId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.qqspace.bean.Answering">
+
+    update answering_info
+    set an_date = #{anDate,jdbcType=TIMESTAMP},
+      an_leaveId = #{anLeaveid,jdbcType=INTEGER},
+      an_userid = #{anUserid,jdbcType=INTEGER},
+      an_messageId = #{anMessageid,jdbcType=INTEGER},
+      an_content = #{anContent,jdbcType=LONGVARCHAR}
+    where an_id = #{anId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qqspace.bean.Answering">
+
+    update answering_info
+    set an_date = #{anDate,jdbcType=TIMESTAMP},
+      an_leaveId = #{anLeaveid,jdbcType=INTEGER},
+      an_userid = #{anUserid,jdbcType=INTEGER},
+      an_messageId = #{anMessageid,jdbcType=INTEGER}
+    where an_id = #{anId,jdbcType=INTEGER}
+  </update>
+</mapper>

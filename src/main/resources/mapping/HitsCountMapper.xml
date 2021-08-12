@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qqspace.dao.HitsCountMapper">
+  <resultMap id="BaseResultMap" type="com.qqspace.bean.HitsCount">
+
+    <id column="hi_articleId" jdbcType="INTEGER" property="hiArticleid" />
+    <result column="hi_count" jdbcType="INTEGER" property="hiCount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+
+    hi_articleId, hi_count
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+
+    select 
+    <include refid="Base_Column_List" />
+    from hitscount_info
+    where hi_articleId = #{hiArticleid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+
+    delete from hitscount_info
+    where hi_articleId = #{hiArticleid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qqspace.bean.HitsCount">
+
+    insert into hitscount_info (hi_articleId, hi_count)
+    values (#{hiArticleid,jdbcType=INTEGER}, #{hiCount,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qqspace.bean.HitsCount">
+
+    insert into hitscount_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="hiArticleid != null">
+        hi_articleId,
+      </if>
+      <if test="hiCount != null">
+        hi_count,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="hiArticleid != null">
+        #{hiArticleid,jdbcType=INTEGER},
+      </if>
+      <if test="hiCount != null">
+        #{hiCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qqspace.bean.HitsCount">
+
+    update hitscount_info
+    <set>
+      <if test="hiCount != null">
+        hi_count = #{hiCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where hi_articleId = #{hiArticleid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qqspace.bean.HitsCount">
+
+    update hitscount_info
+    set hi_count = #{hiCount,jdbcType=INTEGER}
+    where hi_articleId = #{hiArticleid,jdbcType=INTEGER}
+  </update>
+  <update id="updateAutoCountByArticleId" parameterType="integer">
+
+    update hitscount_info
+    set hi_count = hi_count +1 
+    where hi_articleId = #{hiArticleid,jdbcType=INTEGER}
+  </update>
+  
+</mapper>

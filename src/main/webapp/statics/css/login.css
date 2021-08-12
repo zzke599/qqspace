@@ -1,0 +1,350 @@
+body {
+	width: 100%;
+	height: auto;
+	padding: 0;
+	margin: 0;
+	font: 14px/18px "Trebuchet MS", Arial, Helvetica, sans-serif !important;
+	background-image: url("../images/img/indexbg.png");
+	background-size: 400%;
+	animation: bganimation 60s infinite;
+	overflow: hidden;
+
+}
+
+@keyframes bganimation {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+
+}
+.success {
+	font-size: 11px;
+	margin-top: 10px;
+	color: red;
+}
+
+.lg_bg {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+	overflow: hidden;
+}
+
+.lg_logo {
+	position: absolute;
+	width: 400px;
+	height: 67px;
+	background: url(../images/img/dl_logo.png) no-repeat;
+	margin-top: 57px;
+}
+
+#error_login, #error_userPwd {
+	font-size: 10px;
+	padding-left: 40px;
+	display: block;
+}
+
+.top {
+	width: 1200px;
+	margin: 0 auto;
+}
+
+.suggest {
+	margin-right: 60px;
+	margin-top: 18px;
+	float: right;
+	font-size: 12px;
+	margin-left: 5px;
+	color: #7d7d7d;
+}
+
+.suggest img {
+	width: 17px;
+	height: 17px;
+	margin-top: 4px;
+	float: left;
+	margin-right: 8px;
+}
+
+.content {
+	margin: 0px auto;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-position-y: 10px;
+}
+
+.main {
+	margin: 0 10% 0 12%;
+}
+
+.synopsis{
+	display: block;
+	position: absolute;
+	top: 35%;
+	padding-left: 50px;
+}
+.synopsis > p{
+	display: block;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	color: white;
+
+}
+.synopsis p:nth-child(odd){
+	font-size: 13px;
+	letter-spacing: 1px;
+}
+.synopsis p:nth-child(even){
+ 	font-size: 16px;
+	letter-spacing: 1.5px;
+	padding-top: 20px;
+}
+.synopsis p:nth-child(1){
+	text-indent: 40px;
+}
+.synopsis p:nth-child(2){
+	text-indent: 80px;
+}
+.synopsis p:nth-child(3){
+	text-indent: 60px;
+}
+
+.synopsis p:nth-child(5){
+	text-indent: 50px;
+}
+.synopsis p:nth-child(6){
+	text-indent: 20px;
+}
+.loginDiv {
+	display: block;
+	margin: 15% auto 0;
+	float: right;
+	background-color: rgba(255, 255, 255,.15);
+	width: 373px;
+	height: auto;
+}
+
+#loginimg {
+	float: right;
+	height: 58px;
+	padding-right: 0rem;
+}
+
+.am-u-sm-12 {
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+.am-u-sm-12 h4 {
+	font-weight: normal;
+}
+
+.am-u-sm-12 input[type=text] {
+	padding-left: 50px;
+	margin-top: 48px;
+	font-size: 15px;
+	border-radius: 0px;
+	letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    font-family: Verdana,Tahoma,Arial;
+}
+
+.am-u-sm-12 input[type=password] {
+	padding-left: 50px;
+	font-size: 15px;
+	margin-top: 15px;
+	border-radius: 0px;
+	letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    font-family: Verdana,Tahoma,Arial;
+}
+
+.am-u-sm-12 input[type=checkbox] + label::before {
+    content: "\a0";
+    display: inline-block;
+    position: absolute;
+    top: 2px;
+    vertical-align: 2px;
+    width: 16px;
+    height: 16px;
+    background-color: #ecf0f1;
+    border: #0652DD 1px solid;
+    border-radius: 15%;
+    text-indent: 2px;
+    line-height: .65;
+    z-index: 100;
+    cursor: pointer;
+    transition: background 0.6s ease-in;
+	 -moz-transition: background 0.6s ease-in;	/* Firefox 4 */
+	-webkit-transition: background 0.6s ease-in;	/* Safari 和 Chrome */
+	-o-transition: background 0.6s ease-in;	/* Opera */
+}
+
+.am-u-sm-12 input[type="checkbox"]:checked + label::before {
+    content: "\2713";
+	font-weight: bold;
+	font-size: 6px;
+	border: #0652DD 1px solid;
+	line-height: 16px;
+    background-color: #0652DD; /* 选中的背景颜色 */
+    color: white;
+	box-shadow: inset 0px 0px 1px 1px white;
+	transition: background 0.6s ease-out;
+	-moz-transition: background 0.6s ease-out;	/* Firefox 4 */
+	-webkit-transition: background 0.6s ease-out;	/* Safari 和 Chrome */
+	-o-transition: background 0.6s  ease-out;	/* Opera */
+    
+}
+.am-u-sm-12 input[type='checkbox'] {
+    /* 隐藏掉原先实际的 checkbox 框，之所以没用 display:none; 这种简单直接的方式，
+       是因为这种方法会把它从键盘 tab 键切换焦点的队列中完全删除 */
+    position: absolute; 
+    clip:rect(0,0,0,0);       /* 隐藏方式一：裁剪为0 */
+    /* visibility: hidden; */ /* 隐藏方式二：隐藏属性 */
+
+}
+input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        -webkit-transition-delay: 999999s;
+        -webkit-transition: color 999999s ease-out, background-color 999999s ease-out;
+    }
+
+.am-u-sm-12 .check {
+	color: white;
+	margin-left: 15px;
+	font-size: 12px;
+	font-family: Tahoma,Arial;
+	cursor: pointer;
+}
+
+.am-u-sm-12 .am-btn {
+	width: 100%;
+	font-size: 16px;
+    border: 0px;
+    outline: none;
+    color:white;
+    font-weight:bold;
+   background: linear-gradient(45deg, rgba(255,193,7,1) 0%, rgba(255,87,34,1) 100%);
+   padding: 13px 0;
+   transition: all .8s;
+   filter: hue-rotate(0deg);
+}
+.am-u-sm-12 .am-btn:HOVER {
+	
+	filter:hue-rotate(135deg);
+}
+.am-u-sm-12  .am-btnn{
+	width: 100%;
+	font-size: 16px;
+    border: 0px;
+    outline: none;
+    color:white;
+    font-weight:bold;
+   background: linear-gradient(45deg, rgba(231,72,234,1) 0%, rgba(75,26,188,1) 100%);
+   padding: 13px 0;
+   transition: all .5s;
+   filter: hue-rotate(15deg);
+}
+.am-u-sm-12 .success{
+	text-align: center;
+}
+.am-u-sm-12 p {
+	width: 100%;
+	margin-top: 15px;
+	font-size: 12px;
+	color: #333333;
+	padding: 11px 0;
+}
+
+.am-u-sm-12 a {
+	float: right;
+	color: black;
+}
+
+.am-tabs-nav {
+	font-weight: bold;
+}
+
+.logo {
+	/*width: 1000px;*/
+	margin-left: 10px;
+	float: left;
+}
+
+.left1 {
+	position: absolute;
+	background-image: url(../images/img/User.png);
+	background-color: #C0C0C0;
+	height: 40px;
+	width: 40px;
+	background-repeat: no-repeat;
+	display: block;
+	float: left;
+	margin-top: 48px;
+	left: 30px;
+	background-position: center;
+}
+
+.left2 {
+	position: absolute;
+	background-image: url(../images/img/Lock.png);
+	background-color: #C0C0C0;
+	height: 40px;
+	width: 40px;
+	background-repeat: no-repeat;
+	display: block;
+	float: left;
+	margin-top: 15px;
+	left: 30px;
+	background-position: center;
+}
+
+.footer {
+	text-align: center;
+	font-size: 12px;
+}
+
+.bottomLine {
+	margin: 0 auto;
+	width: 700px;
+	height: 35px;
+}
+
+.bottomLine span {
+	float: left;
+	word-spacing: 0.52rem;
+	text-align: center;
+	width: 100%;
+}
+
+.bot {
+	margin: 0 auto;
+	width: 700px;
+	height: 30px;
+}
+
+.bot p {
+	font-size: 12px;
+	float: left;
+	line-height: 10px;
+}
+button{
+   outline:none;
+  }
+button :focus{outline:none;} 
